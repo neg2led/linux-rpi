@@ -11,9 +11,9 @@
 #include "bcm2835.h"
 #include <soc/bcm2835/raspberrypi-firmware.h>
 
-static bool enable_hdmi, enable_hdmi0, enable_hdmi1;
-static bool enable_headphones;
-static bool enable_compat_alsa = true;
+static bool enable_hdmi = true, enable_hdmi0, enable_hdmi1;
+static bool enable_headphones = true;
+static bool enable_compat_alsa;
 
 module_param(enable_hdmi, bool, 0444);
 MODULE_PARM_DESC(enable_hdmi, "Enables HDMI virtual audio device");
