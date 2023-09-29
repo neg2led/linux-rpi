@@ -1,0 +1,52 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "brcm,bcm2835";
+
+	fragment@0 {
+		target = <&dsi1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			port {
+				dsi_out: endpoint {
+					remote-endpoint = <&panel_in>;
+				};
+			};
+
+			panel_cwu50: panel@0 {
+				compatible = "clockwork,cwu50";
+				status = "okay";
+				reg = <0>;
+				reset-gpios = <&gpio 8 GPIO_ACTIVE_LOW>;
+				backlight = <&ocp8178_backlight>;
+				rotation = <90>;
+				iovcc-supply = <&reg_dcdc3>;
+				vci-supply = <&reg_aldo2>;
+
+				port {
+					panel_in: endpoint {
+						remote-endpoint = <&dsi_out>;
+					};
+				};
+			};
+		};
+	};
+
+	fragment@1 {
+		target-path = "/";
+		__overlay__  {
+			ocp8178_backlight: backlight@0 {
+				compatible = "ocp8178-backlight";
+				backlight-control-gpios = <&gpio 9 GPIO_ACTIVE_HIGH>;
+				default-brightness = <5>;
+			};
+		};
+	};
+
+};
