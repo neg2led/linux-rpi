@@ -146,18 +146,21 @@
 						regulator-name = "vcc-3v3-ext-a";
 						regulator-min-microvolt = <3300000>;
 						regulator-max-microvolt = <3300000>;
+						regulator-always-on;
 					};
 
 					reg_dldo3: dldo3 {
 						regulator-name = "vcc-3v3-ext-b";
 						regulator-min-microvolt = <3300000>;
 						regulator-max-microvolt = <3300000>;
+						regulator-always-on;
 					};
 
 					reg_dldo4: dldo4 {
 						regulator-name = "vcc-3v3-ext-c";
 						regulator-min-microvolt = <3300000>;
 						regulator-max-microvolt = <3300000>;
+						regulator-always-on;
 					};
 
 					reg_eldo1: eldo1 {
