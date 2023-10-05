@@ -2,7 +2,7 @@
 /*
  * Copyright (c) 2023 Andi Powers-Holmes <aholmes@omnom.net>
  * This is a DRM panel driver for the display in the ClockworkPi uConsole, "CWU50"
- * It is a 5" 720x1280 display with an ILI9881C controller.
+ * It is a 5" 720x1280 display with an unknown controller.
  */
 
 #include <linux/delay.h>
