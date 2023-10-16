@@ -28,13 +28,11 @@
 
 #define AXP813_VHOLD_MASK		GENMASK(5, 3)
 #define AXP813_VHOLD_UV_TO_BIT(x)	((((x) / 100000) - 40) << 3)
-#define AXP813_VHOLD_REG_TO_UV(x)	\
-	(((((x) & AXP813_VHOLD_MASK) >> 3) + 40) * 100000)
+#define AXP813_VHOLD_REG_TO_UV(x)	(((((x) & AXP813_VHOLD_MASK) >> 3) + 40) * 100000)
 
 #define AXP813_CURR_LIMIT_MASK		GENMASK(2, 0)
 #define AXP813_CURR_LIMIT_UA_TO_BIT(x)	(((x) / 500000) - 3)
-#define AXP813_CURR_LIMIT_REG_TO_UA(x)	\
-	((((x) & AXP813_CURR_LIMIT_MASK) + 3) * 500000)
+#define AXP813_CURR_LIMIT_REG_TO_UA(x)	((((x) & AXP813_CURR_LIMIT_MASK) + 3) * 500000)
 
 #define DRVNAME "axp20x-ac-power-supply"
 
@@ -51,6 +49,9 @@ struct axp20x_ac_power {
 static irqreturn_t axp20x_ac_power_irq(int irq, void *devid)
 {
 	struct axp20x_ac_power *power = devid;
+
+	regmap_update_bits(power->regmap, AXP20X_VBUS_IPSOUT_MGMT, 0x03, 0x00);
+	regmap_update_bits(power->regmap, AXP20X_VBUS_IPSOUT_MGMT, 0x03, 0x03);
 
 	power_supply_changed(power->supply);
 
@@ -95,8 +96,7 @@ static int axp20x_ac_power_get_property(struct power_supply *psy,
 
 		/* ACIN_PATH_SEL disables ACIN even if ACIN_AVAIL is set. */
 		if (val->intval && power->has_acin_path_sel) {
-			ret = regmap_read(power->regmap, AXP813_ACIN_PATH_CTRL,
-					  &reg);
+			ret = regmap_read(power->regmap, AXP813_ACIN_PATH_CTRL, &reg);
 			if (ret)
 				return ret;
 
@@ -315,8 +315,7 @@ static int axp20x_ac_power_resume(struct device *dev)
 }
 #endif
 
-static SIMPLE_DEV_PM_OPS(axp20x_ac_power_pm_ops, axp20x_ac_power_suspend,
-						 axp20x_ac_power_resume);
+static SIMPLE_DEV_PM_OPS(axp20x_ac_power_pm_ops, axp20x_ac_power_suspend, axp20x_ac_power_resume);
 
 static int axp20x_ac_power_probe(struct platform_device *pdev)
 {
