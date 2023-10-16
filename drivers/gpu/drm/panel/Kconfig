@@ -76,6 +76,16 @@ config DRM_PANEL_BOE_TV101WUM_NL6
 	  Say Y here if you want to support for BOE TV101WUM and AUO KD101N80
 	  45NA WUXGA PANEL DSI Video Mode panel
 
+config DRM_PANEL_CLOCKWORK_CWU50
+	tristate "ClockworkPi CWU50 panel"
+	depends on OF
+	depends on DRM_MIPI_DSI
+	depends on BACKLIGHT_CLASS_DEVICE
+	help
+	  Say Y here if you want to enable support for the Clockwork CWU50
+	  panel, as found on the ClockworkPi uConsole. The panel has a
+	  720x1280 resolution and uses 24 bit RGB per pixel.
+
 config DRM_PANEL_DSI_CM
 	tristate "Generic DSI command mode panels"
 	depends on OF
